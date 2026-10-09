@@ -101,4 +101,6 @@ if __name__ == '__main__':
     print("  Administrator: admin@college.edu | admin123")
     print("  Student: alex.turner@college.edu | student123")
     print("=" * 60)
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    host = os.environ.get('HOST', '0.0.0.0' if os.environ.get('PORT') else '127.0.0.1')
+    app.run(host=host, port=port, debug=False if os.environ.get('PORT') else True)
