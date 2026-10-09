@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Feedback - AI Student Feedback Analyzer{% endblock %}
+{% block page_title %}Academic Feedback Form{% endblock %}
+{% block page_subtitle %}Submit transparent, constructive feedback for institutional analysis{% endblock %}
+
+{% block content %}
+<div style="max-width: 860px; margin: 0 auto;">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">New Feedback Submission</h3>
+        <p class="card-subtitle">AI-powered classification runs automatically upon submission</p>
+      </div>
+      <span class="badge badge-outline"><i class="bi bi-shield-check"></i> Verified Student Session</span>
+    </div>
+
+    <div class="card-body">
+      <form id="feedback-submission-form">
+        <!-- Student Information Header Grid (Pre-populated) -->
+        <div style="background-color: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--navy-900); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+            <i class="bi bi-person-lines-fill text-primary"></i> Verified Student Details
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+            <div>
+              <span style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600; display: block;">Student Roll / ID</span>
+              <strong style="font-size: 0.88rem; color: var(--navy-900);">{{ session.get('student_id', 'STU202401') }}</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600; display: block;">Student Name</span>
+              <strong style="font-size: 0.88rem; color: var(--navy-900);">{{ session.get('name', 'Alex Turner') }}</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600; display: block;">Department</span>
+              <strong style="font-size: 0.88rem; color: var(--navy-900);">{{ session.get('department', 'Computer Science') }}</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600; display: block;">Year & Semester</span>
+              <strong style="font-size: 0.88rem; color: var(--navy-900);">Year {{ session.get('year', 3) }} / Sem {{ session.get('semester', 5) }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Category -->
+        <div class="form-group">
+          <label class="form-label" for="category-select">
+            Feedback Category <span class="req">*</span>
+          </label>
+          <select id="category-select" class="form-control" required>
+            <option value="" disabled selected>-- Select an institutional category --</option>
+            <option value="Faculty">Faculty (Mentorship, punctuality, responsiveness)</option>
+            <option value="Course">Course (Curriculum relevance, pacing, syllabus depth)</option>
+            <option value="Teaching">Teaching (Pedagogy, clarity, lecture engagement)</option>
+            <option value="Laboratory">Laboratory (Equipment, hardware, software, experiments)</option>
+            <option value="Infrastructure">Infrastructure (Projectors, classrooms, AC, power, Wi-Fi)</option>
+            <option value="Library">Library (Books, IEEE journals, digital access, study halls)</option>
+            <option value="Campus">Campus (Cafeteria, grounds, sports, hostel, cleanliness)</option>
+            <option value="Student Services">Student Services (Help desk, placement cell, scholarship office)</option>
+            <option value="Overall Experience">Overall Experience (Institutional environment, campus life)</option>
+          </select>
+        </div>
+
+        <!-- 1 - 5 Star Rating -->
+        <div class="form-group">
+          <label class="form-label">
+            Performance Rating <span class="req">*</span>
+          </label>
+          <div class="rating-selector">
+            <div class="star-group">
+              <button type="button" class="star-btn" data-value="1" title="1 - Very Poor"><i class="bi bi-star-fill"></i></button>
+              <button type="button" class="star-btn" data-value="2" title="2 - Poor"><i class="bi bi-star-fill"></i></button>
+              <button type="button" class="star-btn" data-value="3" title="3 - Average"><i class="bi bi-star-fill"></i></button>
+              <button type="button" class="star-btn" data-value="4" title="4 - Good"><i class="bi bi-star-fill"></i></button>
+              <button type="button" class="star-btn" data-value="5" title="5 - Excellent"><i class="bi bi-star-fill"></i></button>
+            </div>
+            <span class="rating-descriptor" id="rating-descriptor">Select a rating</span>
+            <input type="hidden" id="rating-input" name="rating" required>
+          </div>
+        </div>
+
+        <!-- Written Feedback -->
+        <div class="form-group">
+          <label class="form-label" for="feedback-text">
+            Written Feedback <span class="req">*</span>
+          </label>
+          <textarea id="feedback-text" class="form-control" rows="5" placeholder="Write your specific, constructive feedback here... (e.g. 'The faculty explains concepts clearly, but the laboratory equipment is outdated and needs improvement.')" required minlength="10" maxlength="2000"></textarea>
+          <div class="form-text">
+            <span>Minimum 10 characters required</span>
+            <span id="char-count">0 / 2000 characters</span>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; gap: 1rem; align-items: center; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--gray-200);">
+          <button type="button" id="clear-form-btn" class="btn btn-outline">
+            <i class="bi bi-eraser"></i> Clear Form
+          </button>
+          <button type="submit" id="submit-feedback-btn" class="btn btn-primary">
+            <i class="bi bi-send-check"></i> Submit Feedback
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/student.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Administrator Dashboard - AI Student Feedback Analyzer{% endblock %}
+{% block page_title %}Institutional Analytics Dashboard{% endblock %}
+{% block page_subtitle %}Executive overview of campus feedback, sentiment distribution, and emerging issues{% endblock %}
+
+{% block header_extra %}
+<a href="{{ url_for('admin_reports_page') }}" class="btn btn-outline btn-sm">
+  <i class="bi bi-file-earmark-bar-graph"></i> View Full Reports
+</a>
+{% endblock %}
+
+{% block content %}
+<!-- Top KPI Cards Grid -->
+<div class="stats-grid" id="admin-stats-container">
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Total Students</span>
+      <span class="stat-value" id="kpi-total-students">--</span>
+      <span class="stat-subtext"><i class="bi bi-people-fill"></i> Registered learners</span>
+    </div>
+    <div class="stat-icon icon-blue">
+      <i class="bi bi-person-workspace"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Total Feedback</span>
+      <span class="stat-value" id="kpi-total-feedback">--</span>
+      <span class="stat-subtext"><i class="bi bi-chat-left-dots-fill"></i> Total submissions</span>
+    </div>
+    <div class="stat-icon icon-blue">
+      <i class="bi bi-envelope-paper-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Average Rating</span>
+      <span class="stat-value" id="kpi-avg-rating">--</span>
+      <span class="stat-subtext"><i class="bi bi-star-fill text-warning"></i> Campus satisfaction</span>
+    </div>
+    <div class="stat-icon icon-amber">
+      <i class="bi bi-award-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Positive Sentiment</span>
+      <span class="stat-value" id="kpi-pos-pct" style="color: var(--sentiment-pos);">--</span>
+      <span class="stat-subtext"><i class="bi bi-arrow-up-circle-fill text-success"></i> Commendation rate</span>
+    </div>
+    <div class="stat-icon icon-emerald">
+      <i class="bi bi-emoji-smile-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Negative Sentiment</span>
+      <span class="stat-value" id="kpi-neg-pct" style="color: var(--sentiment-neg);">--</span>
+      <span class="stat-subtext"><i class="bi bi-arrow-down-circle-fill text-danger"></i> Deficiencies flagged</span>
+    </div>
+    <div class="stat-icon icon-rose">
+      <i class="bi bi-emoji-frown-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Neutral / Mixed</span>
+      <span class="stat-value" id="kpi-neu-pct">--</span>
+      <span class="stat-subtext"><i class="bi bi-dash-circle"></i> Balanced feedback</span>
+    </div>
+    <div class="stat-icon icon-slate">
+      <i class="bi bi-emoji-neutral-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Pending Analysis</span>
+      <span class="stat-value" id="kpi-pending">0</span>
+      <span class="stat-subtext"><i class="bi bi-hourglass-split"></i> Real-time AI pipeline</span>
+    </div>
+    <div class="stat-icon icon-amber">
+      <i class="bi bi-cpu-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Most Reported Issue</span>
+      <span class="stat-value" id="kpi-most-issue" style="font-size: 1.25rem;">--</span>
+      <span class="stat-subtext"><i class="bi bi-exclamation-triangle"></i> Primary pain point</span>
+    </div>
+    <div class="stat-icon icon-rose">
+      <i class="bi bi-tools"></i>
+    </div>
+  </div>
+</div>
+
+<!-- 4 Charts Grid -->
+<div class="charts-grid">
+  <!-- Chart 1: Sentiment Distribution -->
+  <div class="card chart-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Sentiment Distribution</h3>
+        <p class="card-subtitle">AI categorization: Positive vs Negative vs Neutral vs Mixed</p>
+      </div>
+      <span class="badge badge-outline"><i class="bi bi-pie-chart"></i> Distribution</span>
+    </div>
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="chart-sentiment"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 2: Feedback by Category -->
+  <div class="card chart-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Feedback Volume by Category</h3>
+        <p class="card-subtitle">Distribution across faculty, labs, library, and infrastructure</p>
+      </div>
+      <span class="badge badge-outline"><i class="bi bi-bar-chart"></i> Volume</span>
+    </div>
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="chart-categories"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 3: Average Rating by Category -->
+  <div class="card chart-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Average Rating by Domain</h3>
+        <p class="card-subtitle">Departmental performance benchmarked on 1.0 - 5.0 scale</p>
+      </div>
+      <span class="badge badge-outline"><i class="bi bi-star"></i> Ratings</span>
+    </div>
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="chart-ratings"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 4: Feedback Trend -->
+  <div class="card chart-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Submission Activity Trend</h3>
+        <p class="card-subtitle">Daily intake timeline of submitted student feedback</p>
+      </div>
+      <span class="badge badge-outline"><i class="bi bi-graph-up"></i> Timeline</span>
+    </div>
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="chart-trends"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Feedback Preview -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 class="card-title">Recent Submissions Intake</h3>
+      <p class="card-subtitle">Live stream of incoming student evaluations</p>
+    </div>
+    <a href="{{ url_for('admin_feedback_page') }}" class="btn btn-primary btn-sm">
+      Manage All Feedback <i class="bi bi-arrow-right"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student</th>
+          <th>Category</th>
+          <th>Rating</th>
+          <th>Sentiment</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="recent-feedback-tbody">
+        <tr>
+          <td colspan="7" class="text-center py-4">
+            <span class="spinner-border spinner-border-sm"></span> Loading recent feedback...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

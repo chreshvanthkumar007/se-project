@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - AI Feedback Analyzer{% endblock %}
+{% block page_title %}Student Overview{% endblock %}
+{% block page_subtitle %}Review your feedback activity and submit course appraisals{% endblock %}
+
+{% block content %}
+<!-- Welcome Banner -->
+<div class="welcome-banner">
+  <div class="welcome-text">
+    <h2>Welcome back, {{ session.get('name', 'Student') }}!</h2>
+    <p>
+      Your feedback directly drives institutional enhancements across teaching methodologies, laboratory infrastructure, campus facilities, and curriculum delivery.
+    </p>
+  </div>
+  <div>
+    <a href="{{ url_for('feedback_page') }}" class="btn btn-primary" style="background-color: #ffffff; color: var(--navy-900); font-weight: 700; box-shadow: var(--shadow-md);">
+      <i class="bi bi-plus-circle-fill text-primary"></i> Submit New Feedback
+    </a>
+  </div>
+</div>
+
+<!-- Student Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Total Submitted</span>
+      <span class="stat-value" id="stat-total-submitted">--</span>
+      <span class="stat-subtext"><i class="bi bi-clock-history"></i> Lifetime responses</span>
+    </div>
+    <div class="stat-icon icon-blue">
+      <i class="bi bi-send-check-fill"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Average Rating</span>
+      <span class="stat-value" id="stat-avg-rating">--</span>
+      <span class="stat-subtext"><i class="bi bi-star-fill text-warning"></i> Out of 5.0 scale</span>
+    </div>
+    <div class="stat-icon icon-amber">
+      <i class="bi bi-star-half"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Last Submission</span>
+      <span class="stat-value" id="stat-last-date" style="font-size: 1.25rem;">--</span>
+      <span class="stat-subtext"><i class="bi bi-calendar-event"></i> Most recent entry</span>
+    </div>
+    <div class="stat-icon icon-emerald">
+      <i class="bi bi-calendar-check"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Latest Sentiment</span>
+      <div id="stat-last-status" style="margin-top: 0.5rem;">
+        <span class="badge badge-neutral">Loading...</span>
+      </div>
+      <span class="stat-subtext"><i class="bi bi-cpu"></i> AI-classified sentiment</span>
+    </div>
+    <div class="stat-icon icon-slate">
+      <i class="bi bi-pie-chart-fill"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Submissions Table Card -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 class="card-title">Recent Feedback Submissions</h3>
+      <p class="card-subtitle">Your latest academic assessments and AI sentiment classifications</p>
+    </div>
+    <a href="{{ url_for('my_feedback_page') }}" class="btn btn-outline btn-sm">
+      View All History <i class="bi bi-arrow-right"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Rating</th>
+          <th>Feedback Excerpt</th>
+          <th>Sentiment</th>
+          <th>Submitted On</th>
+          <th>AI Insights</th>
+        </tr>
+      </thead>
+      <tbody id="student-feedback-table-body">
+        <tr>
+          <td colspan="7" class="text-center py-4">
+            <span class="spinner-border spinner-border-sm"></span> Loading your feedback...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/student.js') }}"></script>
+{% endblock %}

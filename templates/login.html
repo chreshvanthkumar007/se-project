@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - AI Student Feedback Analyzer</title>
+  
+  <meta name="description" content="AI Student Feedback Analyzer - Academic Quality Assurance & Real-Time Sentiment Analytics Portal">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Core & Dedicated Modern Auth Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+  <div class="auth-page-wrapper">
+    <!-- Animated Colorful Aurora Mesh Background & Floating Glow Orbs -->
+    <div class="aurora-background">
+      <div class="aurora-mesh"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+      <div class="orb orb-5"></div>
+      <div class="tech-grid-overlay"></div>
+    </div>
+
+    <!-- Main Glassmorphic Hero Container -->
+    <div class="auth-hero-container">
+      <div class="hero-gradient-strip"></div>
+
+      <!-- Left Column: Academic AI Showcase & Live NLP Demonstration -->
+      <div class="auth-showcase-panel">
+        <div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span>Real-Time AI Sentiment Engine 3.0</span>
+          </div>
+          <h2 class="showcase-heading">
+            Elevate Academic Quality With <span class="gradient-text-vibrant">Sentiment AI</span>
+          </h2>
+          <p class="showcase-desc">
+            Transform student qualitative feedback into immediate actionable intelligence, granular aspect extraction, and accreditation-ready analytics.
+          </p>
+        </div>
+
+        <!-- Live Interactive AI Extraction Preview Card -->
+        <div class="ai-preview-card">
+          <div class="preview-header">
+            <span><i class="bi bi-cpu-fill text-info"></i> NLP Aspect Parser Preview</span>
+            <span class="preview-chip-live"><i class="bi bi-broadcast"></i> Live Simulation</span>
+          </div>
+          <div class="preview-quote">
+            "The professors explain core algorithms with great clarity, but laboratory computers urgently need modern hardware."
+          </div>
+          <div class="aspect-pills-row">
+            <span class="aspect-pill pill-pos"><i class="bi bi-check-circle-fill"></i> Faculty Clarity (+0.82)</span>
+            <span class="aspect-pill pill-neg"><i class="bi bi-exclamation-octagon-fill"></i> Lab Hardware (-0.74)</span>
+            <span class="aspect-pill pill-mix"><i class="bi bi-arrow-left-right"></i> Mixed Sentiment (-0.10)</span>
+          </div>
+          <div class="preview-directive">
+            <strong>Action Directive:</strong> Modernize laboratory terminals & maintain pedagogical clarity workshops.
+          </div>
+        </div>
+
+        <!-- Metric Badges Row -->
+        <div class="showcase-highlights">
+          <div class="highlight-item">
+            <span class="highlight-num">9</span>
+            <span class="highlight-label">Academic Domains</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-num">99.4%</span>
+            <span class="highlight-label">Aspect Accuracy</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-num">100%</span>
+            <span class="highlight-label">Offline Lexicon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Colorful Sign-In Form -->
+      <div class="auth-form-panel">
+        <div class="form-header-center">
+          <div class="brand-badge-glow">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <h1 class="form-main-title">AI Student Feedback Analyzer</h1>
+          <p class="form-main-subtitle">Academic Quality Assurance & Sentiment Analytics</p>
+        </div>
+
+        <!-- Role Switching Tabs (Student / Administrator) -->
+        <div class="colorful-role-tabs">
+          <button type="button" class="colorful-role-btn active" id="tab-student">
+            <i class="bi bi-person-badge-fill"></i> Student Portal
+          </button>
+          <button type="button" class="colorful-role-btn" id="tab-admin">
+            <i class="bi bi-shield-lock-fill"></i> Administrator
+          </button>
+        </div>
+
+        <!-- Error Message Alert -->
+        {% if error %}
+        <div id="login-error-alert" class="colorful-error-alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error }}</span>
+        </div>
+        {% else %}
+        <div id="login-error-alert" class="colorful-error-alert" style="display: none;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span></span>
+        </div>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <div class="auth-input-group">
+            <label class="auth-input-label" for="login-email">
+              <i class="bi bi-envelope-at-fill text-info"></i> Email Address or Student ID
+            </label>
+            <div class="input-icon-field">
+              <i class="bi bi-person-fill input-prefix-icon"></i>
+              <input type="text" id="login-email" class="auth-text-input" value="alex.turner@college.edu" placeholder="student@college.edu or STU202401" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label class="auth-input-label" for="login-password">
+              <i class="bi bi-shield-shaded text-primary"></i> Password
+            </label>
+            <div class="input-icon-field">
+              <i class="bi bi-lock-fill input-prefix-icon"></i>
+              <input type="password" id="login-password" class="auth-text-input" value="student123" placeholder="Enter your account password" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" id="toggle-password-btn" aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-meta-row">
+            <label class="custom-checkbox-label" for="login-remember">
+              <input type="checkbox" id="login-remember" checked>
+              <span>Remember session</span>
+            </label>
+            <span class="lab-badge-text">
+              <i class="bi bi-mortarboard-fill"></i> SE Academic Lab 2026
+            </span>
+          </div>
+
+          <button type="submit" id="login-btn" class="vibrant-submit-btn">
+            <i class="bi bi-box-arrow-in-right"></i> Sign In to Portal
+          </button>
+        </form>
+
+        <!-- Interactive 1-Click Viva Credentials Hub -->
+        <div class="viva-credentials-hub">
+          <div class="viva-hub-title">
+            <span><i class="bi bi-lightning-charge-fill text-warning"></i> Quick-Fill Viva Accounts</span>
+            <span class="viva-hub-badge">1-Click Apply</span>
+          </div>
+
+          <div class="viva-quick-chips">
+            <button type="button" class="quick-fill-btn active-preset" data-fill-role="student" data-fill-email="alex.turner@college.edu" data-fill-password="student123">
+              <span class="quick-fill-title"><i class="bi bi-person-circle text-info"></i> Alex Turner</span>
+              <span class="quick-fill-sub">STU202401 • Student</span>
+            </button>
+            <button type="button" class="quick-fill-btn" data-fill-role="admin" data-fill-email="admin@college.edu" data-fill-password="admin123">
+              <span class="quick-fill-title"><i class="bi bi-shield-check text-warning"></i> Admin Office</span>
+              <span class="quick-fill-sub">admin@college.edu</span>
+            </button>
+          </div>
+
+          <div class="active-cred-box">
+            <span id="demo-credentials"><strong>Email:</strong> alex.turner@college.edu | <strong>Password:</strong> student123</span>
+            <span class="cred-copy-badge"><i class="bi bi-check-circle-fill text-success"></i> Active</span>
+          </div>
+          <span id="demo-role-text" style="display: none;">Student</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

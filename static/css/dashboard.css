@@ -1,0 +1,444 @@
+/* =====================================================================
+   AI Student Feedback Analyzer - Dashboard & Specific Views Styling
+   ===================================================================== */
+
+/* -------------------------------------------------------------
+   Login View Styling
+   ------------------------------------------------------------- */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 10% 20%, #eff6ff 0%, #f8fafc 90%);
+  padding: 1.5rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.auth-header {
+  padding: 2.25rem 2rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.auth-logo-badge {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--primary-600), var(--navy-900));
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+}
+
+.auth-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+}
+
+.auth-subtitle {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  margin-top: 0.35rem;
+}
+
+.auth-body {
+  padding: 2rem;
+}
+
+/* Role Selector Tabs */
+.role-tabs {
+  display: flex;
+  background-color: var(--gray-100);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+}
+
+.role-tab-btn {
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: var(--transition-fast);
+}
+
+.role-tab-btn.active {
+  background-color: #ffffff;
+  color: var(--primary-700);
+  box-shadow: var(--shadow-xs);
+}
+
+.demo-credentials-box {
+  background-color: var(--primary-50);
+  border: 1px dashed var(--primary-500);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--primary-900);
+}
+
+.demo-credentials-box strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* -------------------------------------------------------------
+   KPI Statistics Cards Grid
+   ------------------------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  transition: var(--transition-fast);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin-top: 0.35rem;
+  line-height: 1.1;
+  font-family: var(--font-main);
+}
+
+.stat-subtext {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.icon-blue { background-color: var(--primary-50); color: var(--primary-600); }
+.icon-emerald { background-color: var(--sentiment-pos-bg); color: var(--sentiment-pos); }
+.icon-rose { background-color: var(--sentiment-neg-bg); color: var(--sentiment-neg); }
+.icon-amber { background-color: var(--sentiment-mix-bg); color: var(--sentiment-mix); }
+.icon-slate { background-color: var(--gray-100); color: var(--gray-600); }
+
+/* -------------------------------------------------------------
+   Student Welcome Banner
+   ------------------------------------------------------------- */
+.welcome-banner {
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--primary-900) 100%);
+  border-radius: var(--radius-xl);
+  padding: 2rem 2.5rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-md);
+}
+
+.welcome-text h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.welcome-text p {
+  font-size: 0.88rem;
+  color: var(--gray-300);
+  margin-top: 0.35rem;
+  max-width: 540px;
+}
+
+/* -------------------------------------------------------------
+   Interactive Star Rating Component
+   ------------------------------------------------------------- */
+.rating-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.star-group {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.75rem;
+  color: var(--gray-300);
+  transition: transform 0.15s ease, color 0.15s ease;
+  padding: 0.15rem;
+}
+
+.star-btn:hover, .star-btn.active {
+  color: var(--star-gold);
+}
+
+.star-btn:hover {
+  transform: scale(1.15);
+}
+
+.rating-descriptor {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  min-width: 110px;
+}
+
+/* -------------------------------------------------------------
+   Charts Grid
+   ------------------------------------------------------------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 280px;
+}
+
+/* -------------------------------------------------------------
+   Filter & Search Toolbar
+   ------------------------------------------------------------- */
+.toolbar-card {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-xs);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-item label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 0.35rem;
+}
+
+/* -------------------------------------------------------------
+   AI Analysis Detailed Breakdown Modal Styles
+   ------------------------------------------------------------- */
+.analysis-header-score {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.sentiment-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sentiment-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 180px;
+}
+
+.meter-track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--gray-200);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.meter-fill.pos { background-color: var(--sentiment-pos); }
+.meter-fill.neg { background-color: var(--sentiment-neg); }
+.meter-fill.neu { background-color: var(--sentiment-neu); }
+.meter-fill.mix { background-color: var(--sentiment-mix); }
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.analysis-tag {
+  background-color: var(--gray-100);
+  color: var(--navy-800);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--gray-200);
+}
+
+.aspect-section {
+  margin-top: 1.25rem;
+}
+
+.aspect-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.aspect-card {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 0.5rem;
+  font-size: 0.84rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.aspect-card.strength {
+  background-color: var(--sentiment-pos-bg);
+  border-left: 3px solid var(--sentiment-pos);
+  color: #065f46;
+}
+
+.aspect-card.problem {
+  background-color: var(--sentiment-neg-bg);
+  border-left: 3px solid var(--sentiment-neg);
+  color: #991b1b;
+}
+
+.aspect-card.recommendation {
+  background-color: var(--primary-50);
+  border-left: 3px solid var(--primary-600);
+  color: var(--primary-900);
+}
+
+/* -------------------------------------------------------------
+   Pagination Controls
+   ------------------------------------------------------------- */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.pagination-info {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .welcome-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}

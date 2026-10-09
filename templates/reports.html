@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics & Reports - AI Student Feedback Analyzer{% endblock %}
+{% block page_title %}Executive Analytics & Reports{% endblock %}
+{% block page_subtitle %}Generate custom audit reports, export CSV data, and analyze departmental trends{% endblock %}
+
+{% block header_extra %}
+<div style="display: flex; gap: 0.5rem;">
+  <button id="export-csv-btn" class="btn btn-primary btn-sm">
+    <i class="bi bi-file-earmark-arrow-down"></i> Export CSV
+  </button>
+  <button id="print-report-btn" class="btn btn-outline btn-sm">
+    <i class="bi bi-printer"></i> Print Report
+  </button>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Report Criteria Filter Card -->
+<div class="toolbar-card">
+  <div style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+    <i class="bi bi-funnel text-primary"></i> Report Filter Parameters
+  </div>
+  <div class="filter-grid">
+    <div class="filter-item">
+      <label for="report-start-date">Start Date</label>
+      <input type="date" id="report-start-date" class="form-control">
+    </div>
+
+    <div class="filter-item">
+      <label for="report-end-date">End Date</label>
+      <input type="date" id="report-end-date" class="form-control">
+    </div>
+
+    <div class="filter-item">
+      <label for="report-department">Department</label>
+      <select id="report-department" class="form-control">
+        <option value="all">All Departments</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="report-category">Category</label>
+      <select id="report-category" class="form-control">
+        <option value="all">All Categories</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="report-sentiment">Sentiment</label>
+      <select id="report-sentiment" class="form-control">
+        <option value="all">All Sentiments</option>
+        <option value="Positive">Positive</option>
+        <option value="Negative">Negative</option>
+        <option value="Neutral">Neutral</option>
+        <option value="Mixed">Mixed</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="report-rating">Rating</label>
+      <select id="report-rating" class="form-control">
+        <option value="all">All Ratings</option>
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="2">2 Stars</option>
+        <option value="1">1 Star</option>
+      </select>
+    </div>
+
+    <div class="filter-item" style="grid-column: span 2; display: flex; flex-direction: row; gap: 0.5rem; align-items: flex-end;">
+      <button type="button" id="generate-report-btn" class="btn btn-primary" style="flex: 1;">
+        <i class="bi bi-gear-fill"></i> Generate Report
+      </button>
+      <button type="button" id="report-reset-btn" class="btn btn-outline">
+        <i class="bi bi-arrow-counterclockwise"></i> Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Summarized Metrics Cards (Filtered Snapshot) -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Total Responses</span>
+      <span class="stat-value" id="rep-total">--</span>
+      <span class="stat-subtext"><i class="bi bi-file-text"></i> Within selected filters</span>
+    </div>
+    <div class="stat-icon icon-blue">
+      <i class="bi bi-chat-square-text"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Average Rating</span>
+      <span class="stat-value" id="rep-avg-rate">--</span>
+      <span class="stat-subtext"><i class="bi bi-star-fill text-warning"></i> Filtered average</span>
+    </div>
+    <div class="stat-icon icon-amber">
+      <i class="bi bi-star"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Positive Sentiment</span>
+      <span class="stat-value" id="rep-pos-pct" style="color: var(--sentiment-pos);">--</span>
+      <span class="stat-subtext"><i class="bi bi-check-circle"></i> Commendation share</span>
+    </div>
+    <div class="stat-icon icon-emerald">
+      <i class="bi bi-emoji-smile"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Negative Sentiment</span>
+      <span class="stat-value" id="rep-neg-pct" style="color: var(--sentiment-neg);">--</span>
+      <span class="stat-subtext"><i class="bi bi-exclamation-circle"></i> Deficiencies share</span>
+    </div>
+    <div class="stat-icon icon-rose">
+      <i class="bi bi-emoji-frown"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Neutral / Mixed</span>
+      <span class="stat-value" id="rep-neu-pct">--</span>
+      <span class="stat-subtext">Balanced / mixed</span>
+    </div>
+    <div class="stat-icon icon-slate">
+      <i class="bi bi-dash-circle"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-data">
+      <span class="stat-label">Most Praised Area</span>
+      <span class="stat-value" id="rep-praised" style="font-size: 1.2rem; color: var(--sentiment-pos);">--</span>
+      <span class="stat-subtext"><i class="bi bi-trophy"></i> Highest commendations</span>
+    </div>
+    <div class="stat-icon icon-emerald">
+      <i class="bi bi-award"></i>
+    </div>
+  </div>
+
+  <div class="stat-card" style="grid-column: span 2;">
+    <div class="stat-data">
+      <span class="stat-label">Most Problematic Category</span>
+      <span class="stat-value" id="rep-problem" style="font-size: 1.25rem; color: var(--sentiment-neg);">--</span>
+      <span class="stat-subtext"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Requires institutional intervention</span>
+    </div>
+    <div class="stat-icon icon-rose">
+      <i class="bi bi-shield-exclamation"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Detailed Filtered Records Table -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 class="card-title">Detailed Feedback Audit Trail</h3>
+      <p class="card-subtitle">Filtered responses matching selected criteria</p>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student Details</th>
+          <th>Category</th>
+          <th>Rating</th>
+          <th>Sentiment</th>
+          <th>Score</th>
+          <th>Feedback Content</th>
+          <th>Submitted On</th>
+        </tr>
+      </thead>
+      <tbody id="report-table-body">
+        <tr>
+          <td colspan="8" class="text-center py-4">
+            <span class="spinner-border spinner-border-sm"></span> Compiling report data...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+{% endblock %}

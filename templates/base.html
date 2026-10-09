@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}AI Student Feedback Analyzer{% endblock %}</title>
+  
+  <!-- Favicon / Meta -->
+  <meta name="description" content="AI Student Feedback Analyzer - Academic Quality and Institutional Sentiment Analytics System">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Core Design System CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">EduFeedback AI</span>
+          <span class="brand-subtitle">Analytics Platform</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        {% if session.get('role') == 'admin' %}
+          <div class="nav-section-title">Institutional Overview</div>
+          <a href="{{ url_for('admin_dashboard_page') }}" class="nav-link {% if request.endpoint == 'admin_dashboard_page' %}active{% endif %}">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{ url_for('admin_feedback_page') }}" class="nav-link {% if request.endpoint == 'admin_feedback_page' %}active{% endif %}">
+            <i class="bi bi-chat-square-quote"></i>
+            <span>Feedback Management</span>
+          </a>
+          <a href="{{ url_for('admin_reports_page') }}" class="nav-link {% if request.endpoint == 'admin_reports_page' %}active{% endif %}">
+            <i class="bi bi-bar-chart-line"></i>
+            <span>Analytics & Reports</span>
+          </a>
+        {% else %}
+          <div class="nav-section-title">Student Portal</div>
+          <a href="{{ url_for('student_dashboard_page') }}" class="nav-link {% if request.endpoint == 'student_dashboard_page' %}active{% endif %}">
+            <i class="bi bi-grid-1x2"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="{{ url_for('feedback_page') }}" class="nav-link {% if request.endpoint == 'feedback_page' %}active{% endif %}">
+            <i class="bi bi-pencil-square"></i>
+            <span>Submit Feedback</span>
+          </a>
+          <a href="{{ url_for('my_feedback_page') }}" class="nav-link {% if request.endpoint == 'my_feedback_page' %}active{% endif %}">
+            <i class="bi bi-clock-history"></i>
+            <span>My Feedback History</span>
+          </a>
+        {% endif %}
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">
+            {{ session.get('name', 'U')[0] | upper }}
+          </div>
+          <div class="user-meta">
+            <span class="user-name">{{ session.get('name', 'User') }}</span>
+            <span class="user-role-badge">{{ session.get('role', 'Student') }}</span>
+          </div>
+        </div>
+        <button class="btn-logout-icon" onclick="handleLogout()" title="Sign Out">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Navigation Header -->
+      <header class="top-header">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="header-title-area">
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+            <p>{% block page_subtitle %}AI Student Feedback Analyzer System{% endblock %}</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="header-date-badge">
+            <i class="bi bi-calendar3"></i>
+            <span id="current-date-badge">Academic Session 2026-27</span>
+          </div>
+          {% block header_extra %}{% endblock %}
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <section class="page-body">
+        {% block content %}{% endblock %}
+      </section>
+    </main>
+  </div>
+
+  <!-- AI Analysis Breakdown Modal -->
+  <div class="modal-overlay" id="analysis-details-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="bi bi-cpu text-primary"></i> AI Feedback Analysis Breakdown</h3>
+        <button class="modal-close" onclick="closeModal('analysis-details-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="analysis-modal-body">
+        <!-- Dynamically injected via JS -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('analysis-details-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Delete Modal -->
+  <div class="modal-overlay" id="delete-confirm-modal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title text-danger"><i class="bi bi-trash"></i> Confirm Deletion</h3>
+        <button class="modal-close" onclick="closeModal('delete-confirm-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="delete-modal-msg" style="font-size: 0.9rem; color: var(--gray-700);">
+          Are you sure you want to permanently delete this feedback record?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('delete-confirm-modal')">Cancel</button>
+        <button class="btn btn-danger" onclick="executeDeleteFeedback()">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Core Scripts -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

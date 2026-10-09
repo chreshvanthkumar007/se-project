@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}My Feedback History - AI Student Feedback Analyzer{% endblock %}
+{% block page_title %}My Feedback History{% endblock %}
+{% block page_subtitle %}Comprehensive record of your submitted evaluations and AI analytical breakdowns{% endblock %}
+
+{% block header_extra %}
+<a href="{{ url_for('feedback_page') }}" class="btn btn-primary btn-sm">
+  <i class="bi bi-plus-lg"></i> Submit New Feedback
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 class="card-title">Submitted Appraisals</h3>
+      <p class="card-subtitle">All feedback entries submitted from this student account</p>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Rating</th>
+          <th>Feedback Text</th>
+          <th>Sentiment</th>
+          <th>Date Submitted</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="student-feedback-table-body">
+        <tr>
+          <td colspan="7" class="text-center py-4">
+            <span class="spinner-border spinner-border-sm"></span> Loading submissions...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/student.js') }}"></script>
+{% endblock %}
